@@ -1,0 +1,26 @@
+version: "3"
+services:
+  agency-db:
+    container_name: agency-db
+    image: "mysql:8.0.21"
+    restart: always
+    networks:
+      - agency
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=dbTest
+
+  agency-api:
+    container_name: agency-api
+    build:
+      context: ./
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - agency-db
+    networks:
+      - agency
+
+networks:
+  agency:

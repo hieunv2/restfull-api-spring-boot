@@ -1,0 +1,12 @@
+image: quanghd96/maven-openssh:latest
+
+pipelines:
+  branches:
+    master:
+      - step:
+          caches:
+            - maven
+          script:
+            - mvn clean package -DskipTests -Pprod
+            - scp -r target/api-exec.jar quang@api-admin.javis.io:/home/projects/agency/api.jar
+            - ssh quang@api-admin.javis.io /home/projects/agency/update.sh
